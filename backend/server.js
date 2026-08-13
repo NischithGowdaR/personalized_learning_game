@@ -19,6 +19,7 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
+  'https://personalized-learning-game.vercel.app',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
@@ -29,10 +30,13 @@ app.use(cors({
     }
     // Match localhost or 127.0.0.1 on any port number (e.g., 5174, 5175)
     const isLocalhost = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
-    if (isLocalhost || allowedOrigins.includes(origin)) {
+    // Match any vercel domain (e.g., personalized-learning-game.vercel.app or preview deployments)
+    const isVercel = /^https:\/\/.*\.vercel\.app$/.test(origin);
+
+    if (isLocalhost || isVercel || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(null, false);
     }
   },
   credentials: true,
