@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import MobileNav from './components/MobileNav';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
@@ -24,7 +25,7 @@ const AppContent = () => {
       <Navbar />
       <div className="flex flex-1 relative">
         {user && <Sidebar />}
-        <main className="flex-1 w-full bg-slate-950 overflow-y-auto">
+        <main className={`flex-1 w-full bg-slate-950 overflow-y-auto ${user ? 'pb-20 md:pb-6' : ''}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -85,6 +86,7 @@ const AppContent = () => {
           </Routes>
         </main>
       </div>
+      <MobileNav />
     </div>
   );
 };
